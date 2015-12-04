@@ -7,40 +7,40 @@
 
 **1、安装**
 
-./zookeeper.sh install ips
+./zookeeper.sh install
 
 **2、启动**
 
-./zookeeper.sh start ips
+./zookeeper.sh start
 
 **3、查看状态**
 
-./zookeeper.sh status ips
+./zookeeper.sh status
 
 `注意`：有些服务器会出现“Error contacting service. It is probably not running.”错误，但是zookeeper已经正确运行。
 
 **4、重启**
 
-./zookeeper.sh restart ips
+./zookeeper.sh restart
 
 **5、停止**
 
-./zookeeper.sh stop ips
+./zookeeper.sh stop
 
 **6、删除索引以及日志文件**
 
-./zookeeper.sh deldata ips
+./zookeeper.sh deldata
 
 **7、删除全部文件**
 
-./zookeeper.sh delall ips
+./zookeeper.sh delall
 
 
 ## 二、KafkaCloud
 
 **1、安装**
 
-./kafka.sh install ips
+./kafka.sh install
 
 **2、启动**
 
@@ -52,18 +52,18 @@
 
 **3、查看状态**
 
-./kafka.sh status ips
+./kafka.sh status
 
 **4、停止**
 
-./kafka.sh stop ips
+./kafka.sh stop
 
 **5、删除索引以及日志文件**
 
-./kafka.sh deldata ips
+./kafka.sh deldata
 
 **6、删除全部文件**
 
-./kafka.sh delall ips
+./kafka.sh delall
 
 注意事项：部署时，最好关闭防火墙。

@@ -19,8 +19,8 @@ PRGDIR=`dirname "$PRG"`
 PROJECT_DIR=`cd "$PRGDIR/.." >/dev/null; pwd`
 #echo PROJECT_DIR=$PROJECT_DIR
 
-BASE_DIR="~/solr-cloud/"
-SOLR_VERSION="4.8.0"
+BASE_DIR="~/kafka-cloud/"
+kafka_VERSION="kafka_2.11-0.9.0.0"
 
 usage() {
   echo >&2 "Usage: $PRG <command> [args]"
@@ -29,59 +29,50 @@ usage() {
 }
 
 install() {
-    for i in `cat $@`;
-    do 
+    for i in `cat ips`;
+    do
         echo $i": install ...";
-        scp -r solr-cloud $i:~/;
+        scp -r kafka-cloud $i:~/;
     done;
 }
 
 start() {
-    MASTER=`cat master`;
-    echo $MASTER": start master ...";
-    ssh $MASTER "cd solr-cloud/solr-"$SOLR_VERSION";java -Xms1024M -Xmx2048M -Dbootstrap_confdir=./solr/videos/conf -Dcollection.configName=hubing -DnumShards=4 -DzkHost=192.168.32.17:2181,192.168.32.18:2181,192.168.32.19:2181,192.168.32.20:2181 -jar start.jar &" &
-    echo "sleeping ..."
-
-    for ((i=60;i>0;i--))
-    do 
-        echo "After "$i" seconds, it will start slaves ...";sleep 1;
-    done
-
-    for i in `cat slaves`;
+    for i in `cat ips`;
     do
-        echo $i": start slave ...";
-        ssh $i "cd solr-cloud/solr-"$SOLR_VERSION";java -Xms1024M -Xmx2048M -DzkHost=192.168.32.17:2181,192.168.32.18:2181,192.168.32.19:2181,192.168.32.20:2181 -jar start.jar &" &
+        echo $i": start ...";
+        ssh $i "cd kafka-cloud/"$kafka_VERSION";bin/kafka-server-start.sh config/server.properties &" &
+        sleep 5s;
     done;
 }
 
 status() {
-    for i in `cat $@`;
+    for i in `cat ips`;
     do
         echo $i": status ...";
-        ssh $i "ps aux | grep start.jar | grep -v grep";
+        ssh $i "ps aux | grep kafka-server-start.sh | grep -v grep";
     done;
 }
 
 stop() {
-    for i in `cat $@`;
-    do 
+    for i in `cat ips`;
+    do
         echo $i": stop ...";
-        PID=$(ssh $i "ps aux | grep start.jar | grep -v grep" | awk '{print $2}');
-        ssh $i "kill -9 "$PID;
+        ssh $i "cd kafka-cloud/"$kafka_VERSION";bin/kafka-server-stop.sh config/server.properties &" &
+        sleep 5s;
     done;
 }
 
 deldata() {
-    for i in `cat $@`;
-    do 
+    for i in `cat ips`;
+    do
         echo $i": deldata ...";
-        ssh $i "rm -r "$BASE_DIR"solr_data;rm -r "$BASE_DIR"solr_ulogs;rm -r "$BASE_DIR"solr_request_logs/*;rm -r "$BASE_DIR"solr_logs;rm -r "$BASE_DIR"solr_webapp";
+        ssh $i "rm -r "$BASE_DIR"kafka-logs;;
     done;
 }
 
 delall() {
-    for i in `cat $@`;
-    do 
+    for i in `cat ips`;
+    do
         echo $i": delall ...";
         ssh $i "rm -r "$BASE_DIR;
     done;

@@ -29,8 +29,8 @@ usage() {
 
 install() {
     MYID=1;
-    for i in `cat $@`;
-    do 
+    for i in `cat ips`;
+    do
         echo $i": install ...";
         # scp files
         scp -r zookeeper-cloud $i:~/;
@@ -41,47 +41,47 @@ install() {
 }
 
 start() {
-    for i in `cat $@`;
-    do 
+    for i in `cat ips`;
+    do
         echo $i": start ...";
         ssh $i $BASE_DIR"zookeeper-3.4.6/bin/zkServer.sh start";
     done;
 }
 
 status() {
-    for i in `cat $@`;
-    do 
+    for i in `cat ips`;
+    do
         echo $i": status ...";
         ssh $i $BASE_DIR"zookeeper-3.4.6/bin/zkServer.sh status";
     done;
 }
 
 restart() {
-    for i in `cat $@`;
-    do 
+    for i in `cat ips`;
+    do
         echo $i": restart ...";
         ssh $i $BASE_DIR"zookeeper-3.4.6/bin/zkServer.sh restart";
     done;
 }
 
 stop() {
-    for i in `cat $@`;
-    do 
+    for i in `cat ips`;
+    do
         echo $i": stop ...";
         ssh $i $BASE_DIR"zookeeper-3.4.6/bin/zkServer.sh stop";
     done;
 }
 
 deldata() {
-    for i in `cat $@`;
-    do 
+    for i in `cat ips`;
+    do
         echo $i": deldata ...";
         ssh $i "rm -r "$BASE_DIR"zk_data/version-2;rm -r "$BASE_DIR"zk_logs/*;rm -r "$BASE_DIR"zookeeper.out";
     done;
 }
 
 delall() {
-    for i in `cat $@`;
+    for i in `cat ips`;
     do
         echo $i": delall ...";
         ssh $i "rm -r "$BASE_DIR;
@@ -91,31 +91,31 @@ delall() {
 case $1 in
     (install)
         shift
-        install $@
+        install
         ;;
     (start)
         shift
-        start $@
+        start
         ;;
     (status)
         shift
-        status $@
+        status
         ;;
     (restart)
         shift
-        restart $@
+        restart
         ;;
     (stop)
         shift
-        stop $@
+        stop
         ;;
     (deldata)
         shift
-        deldata $@
+        deldata
         ;;
     (delall)
         shift
-        delall $@
+        delall
         ;;
     (*)
         echo >&2 "$PRG: error: unknown command '$1'"
