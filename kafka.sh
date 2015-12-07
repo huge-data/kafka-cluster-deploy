@@ -49,7 +49,7 @@ status() {
     for i in `cat ips`;
     do
         echo $i": status ...";
-        ssh $i "ps aux | grep kafka-server-start.sh | grep -v grep";
+        ssh $i "ps aux | grep Kafka | grep -v grep";
     done;
 }
 
@@ -66,7 +66,7 @@ deldata() {
     for i in `cat ips`;
     do
         echo $i": deldata ...";
-        ssh $i "rm -r "$BASE_DIR"kafka-logs;;
+        ssh $i "rm -r "$BASE_DIR"kafka-logs";
     done;
 }
 
