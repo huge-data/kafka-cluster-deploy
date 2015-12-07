@@ -9,8 +9,6 @@
 
 ./zookeeper.sh install
 
-> 需要在每个节点的kafka-cluster-deploy/kafka-cloud/kafka_2.11-0.9.0.0/config/server.properties配置文件中将broker.id配置不同。
-
 **2、启动**
 
 ./zookeeper.sh start
@@ -43,6 +41,8 @@
 **1、安装**
 
 ./kafka.sh install
+
+> 需要在每个节点的kafka-cluster-deploy/kafka-cloud/kafka_2.11-0.9.0.0/config/server.properties配置文件中将broker.id配置不同。
 
 **2、启动**
 
