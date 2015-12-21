@@ -20,7 +20,7 @@ PROJECT_DIR=`cd "$PRGDIR/.." >/dev/null; pwd`
 #echo PROJECT_DIR=$PROJECT_DIR
 
 BASE_DIR="~/kafka-cloud/"
-kafka_VERSION="kafka_2.11-0.9.0.0"
+kafka_VERSION="kafka_2.10-0.8.2.2"
 
 usage() {
   echo >&2 "Usage: $PRG <command> [args]"
